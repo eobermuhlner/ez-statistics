@@ -1,0 +1,2 @@
+# ez-statistics
+Easy statistics
