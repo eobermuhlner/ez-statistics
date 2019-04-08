@@ -48,4 +48,11 @@ public class Statistics {
         return new MedianCalculator().getResult(sortedValues);
     }
 
+    public static double populationVariance(Collection<Double> values) {
+        return new UnivariateStreamAsCollectionCalculator<>(new PopulationVarianceCalculator()).getResult(values);
+    }
+
+    public static double populationStandardDeviation(Collection<Double> values) {
+        return new UnivariateStreamAsCollectionCalculator<>(new PopulationStandardDeviationCalculator()).getResult(values);
+    }
 }
