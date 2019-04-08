@@ -1,24 +1,24 @@
 package ch.obermuhlner.math.statistics.univariate.stream;
 
-public class ArithmeticMeanCalculator implements UnivariateStreamCalculator<Double> {
+public class GeometricMeanCalculator implements UnivariateStreamCalculator<Double> {
 
-    private double sum = 0;
+    private double product = 1;
     private int count = 0;
 
-    public void combine(ArithmeticMeanCalculator other) {
-        sum += other.sum;
+    public void combine(GeometricMeanCalculator other) {
+        product *= other.product;
         count += other.count;
     }
 
     @Override
     public void add(double value) {
-        sum += value;
+        product *= value;
         count++;
     }
 
     @Override
     public Double getResult() {
-        return sum / count;
+        return Math.pow(product, 1.0/count);
     }
 
     public int getCount() {

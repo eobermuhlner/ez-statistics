@@ -1,24 +1,24 @@
 package ch.obermuhlner.math.statistics.univariate.stream;
 
-public class ArithmeticMeanCalculator implements UnivariateStreamCalculator<Double> {
+public class HarmonicMeanCalculator implements UnivariateStreamCalculator<Double> {
 
-    private double sum = 0;
+    private double sumReciprocals = 0;
     private int count = 0;
 
-    public void combine(ArithmeticMeanCalculator other) {
-        sum += other.sum;
+    public void combine(HarmonicMeanCalculator other) {
+        sumReciprocals += other.sumReciprocals;
         count += other.count;
     }
 
     @Override
     public void add(double value) {
-        sum += value;
+        sumReciprocals += 1.0 / value;
         count++;
     }
 
     @Override
     public Double getResult() {
-        return sum / count;
+        return count / sumReciprocals;
     }
 
     public int getCount() {
