@@ -55,4 +55,12 @@ public class Statistics {
     public static double populationStandardDeviation(Collection<Double> values) {
         return new UnivariateStreamAsCollectionCalculator<>(new PopulationStandardDeviationCalculator()).getResult(values);
     }
+
+    public static double sampleVariance(Collection<Double> values) {
+        return new UnivariateStreamAsCollectionCalculator<>(new SampleVarianceCalculator()).getResult(values);
+    }
+
+    public static double sampleStandardDeviation(Collection<Double> values) {
+        return new UnivariateStreamAsCollectionCalculator<>(new SampleStandardDeviationCalculator()).getResult(values);
+    }
 }
