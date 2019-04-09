@@ -9,6 +9,10 @@ public class SampleStandardDeviationCalculator implements UnivariateStreamCalcul
         sampleVarianceCalculator.add(value);
     }
 
+    public void combine(SampleStandardDeviationCalculator other) {
+        sampleVarianceCalculator.combine(other.sampleVarianceCalculator);
+    }
+
     @Override
     public Double getResult() {
         double sampleVariance = sampleVarianceCalculator.getResult();

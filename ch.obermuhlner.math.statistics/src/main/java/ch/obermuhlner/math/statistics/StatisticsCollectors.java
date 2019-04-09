@@ -69,4 +69,36 @@ public class StatisticsCollectors {
                 (left, right) -> { throw new UnsupportedOperationException("parallel computation not supported for median"); },
                 (calc) -> calc.getResult());
     }
+
+    public static Collector<Double, PopulationVarianceCalculator, Double> populationVariance() {
+        return Collector.of(
+                () -> new PopulationVarianceCalculator(),
+                (calc, value) -> calc.add(value),
+                (left, right) -> { left.combine(right); return left; },
+                (calc) -> calc.getResult());
+    }
+
+    public static Collector<Double, PopulationStandardDeviationCalculator, Double> populationStandardDeviation() {
+        return Collector.of(
+                () -> new PopulationStandardDeviationCalculator(),
+                (calc, value) -> calc.add(value),
+                (left, right) -> { left.combine(right); return left; },
+                (calc) -> calc.getResult());
+    }
+
+    public static Collector<Double, SampleVarianceCalculator, Double> sampleVariance() {
+        return Collector.of(
+                () -> new SampleVarianceCalculator(),
+                (calc, value) -> calc.add(value),
+                (left, right) -> { left.combine(right); return left; },
+                (calc) -> calc.getResult());
+    }
+
+    public static Collector<Double, SampleStandardDeviationCalculator, Double> sampleStandardDeviation() {
+        return Collector.of(
+                () -> new SampleStandardDeviationCalculator(),
+                (calc, value) -> calc.add(value),
+                (left, right) -> { left.combine(right); return left; },
+                (calc) -> calc.getResult());
+    }
 }

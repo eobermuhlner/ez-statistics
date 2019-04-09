@@ -9,6 +9,10 @@ public class SampleVarianceCalculator implements UnivariateStreamCalculator<Doub
         populationVarianceCalculator.add(value);
     }
 
+    public void combine(SampleVarianceCalculator other) {
+        populationVarianceCalculator.combine(other.populationVarianceCalculator);
+    }
+
     @Override
     public Double getResult() {
         double populationVariance = populationVarianceCalculator.getResult();
