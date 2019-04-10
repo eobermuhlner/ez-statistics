@@ -1,5 +1,6 @@
 package ch.obermuhlner.math.statistics;
 
+import ch.obermuhlner.math.statistics.type.SkewnessKurtosis;
 import ch.obermuhlner.math.statistics.univariate.collection.MedianCalculator;
 import ch.obermuhlner.math.statistics.univariate.stream.*;
 
@@ -99,6 +100,86 @@ public class StatisticsCollectors {
                 () -> new SampleStandardDeviationCalculator(),
                 (calc, value) -> calc.add(value),
                 (left, right) -> { left.combine(right); return left; },
+                (calc) -> calc.getResult());
+    }
+
+    public static Collector<Double, PopulationSkewnessKurtosisCalculator, Double> populationSkewness() {
+        return Collector.of(
+                () -> new PopulationSkewnessKurtosisCalculator(true, false),
+                (calc, value) -> calc.add(value),
+                (left, right) -> { throw new UnsupportedOperationException("parallel computation not supported for skewness"); },
+                (calc) -> calc.getSkewness());
+    }
+
+    public static Collector<Double, PopulationSkewnessKurtosisCalculator, Double> populationKurtosis() {
+        return Collector.of(
+                () -> new PopulationSkewnessKurtosisCalculator(false, true),
+                (calc, value) -> calc.add(value),
+                (left, right) -> { throw new UnsupportedOperationException("parallel computation not supported for kurtosis"); },
+                (calc) -> calc.getKurtosis());
+    }
+
+    public static Collector<Double, PopulationSkewnessExcessKurtosisCalculator, Double> populationExcessKurtosis() {
+        return Collector.of(
+                () -> new PopulationSkewnessExcessKurtosisCalculator(false, true),
+                (calc, value) -> calc.add(value),
+                (left, right) -> { throw new UnsupportedOperationException("parallel computation not supported for kurtosis"); },
+                (calc) -> calc.getKurtosis());
+    }
+
+    public static Collector<Double, PopulationSkewnessKurtosisCalculator, SkewnessKurtosis> populationSkewnessKurtosis() {
+        return Collector.of(
+                () -> new PopulationSkewnessKurtosisCalculator(),
+                (calc, value) -> calc.add(value),
+                (left, right) -> { throw new UnsupportedOperationException("parallel computation not supported for skewness and kurtosis"); },
+                (calc) -> calc.getResult());
+    }
+
+    public static Collector<Double, PopulationSkewnessExcessKurtosisCalculator, SkewnessKurtosis> populationSkewnessExcessKurtosis() {
+        return Collector.of(
+                () -> new PopulationSkewnessExcessKurtosisCalculator(),
+                (calc, value) -> calc.add(value),
+                (left, right) -> { throw new UnsupportedOperationException("parallel computation not supported for skewness and kurtosis"); },
+                (calc) -> calc.getResult());
+    }
+
+    public static Collector<Double, SampleSkewnessKurtosisCalculator, Double> sampleSkewness() {
+        return Collector.of(
+                () -> new SampleSkewnessKurtosisCalculator(true, false),
+                (calc, value) -> calc.add(value),
+                (left, right) -> { throw new UnsupportedOperationException("parallel computation not supported for skewness"); },
+                (calc) -> calc.getSkewness());
+    }
+
+    public static Collector<Double, SampleSkewnessKurtosisCalculator, Double> sampleKurtosis() {
+        return Collector.of(
+                () -> new SampleSkewnessKurtosisCalculator(false, true),
+                (calc, value) -> calc.add(value),
+                (left, right) -> { throw new UnsupportedOperationException("parallel computation not supported for kurtosis"); },
+                (calc) -> calc.getKurtosis());
+    }
+
+    public static Collector<Double, SampleSkewnessExcessKurtosisCalculator, Double> sampleExcessKurtosis() {
+        return Collector.of(
+                () -> new SampleSkewnessExcessKurtosisCalculator(false, true),
+                (calc, value) -> calc.add(value),
+                (left, right) -> { throw new UnsupportedOperationException("parallel computation not supported for kurtosis"); },
+                (calc) -> calc.getKurtosis());
+    }
+
+    public static Collector<Double, SampleSkewnessKurtosisCalculator, SkewnessKurtosis> sampleSkewnessKurtosis() {
+        return Collector.of(
+                () -> new SampleSkewnessKurtosisCalculator(),
+                (calc, value) -> calc.add(value),
+                (left, right) -> { throw new UnsupportedOperationException("parallel computation not supported for skewness and kurtosis"); },
+                (calc) -> calc.getResult());
+    }
+
+    public static Collector<Double, SampleSkewnessExcessKurtosisCalculator, SkewnessKurtosis> sampleSkewnessExcessKurtosis() {
+        return Collector.of(
+                () -> new SampleSkewnessExcessKurtosisCalculator(),
+                (calc, value) -> calc.add(value),
+                (left, right) -> { throw new UnsupportedOperationException("parallel computation not supported for skewness and kurtosis"); },
                 (calc) -> calc.getResult());
     }
 }

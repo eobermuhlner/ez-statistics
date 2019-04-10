@@ -88,60 +88,59 @@ public class StatisticsCollectorsTest {
         assertEquals(6 / 3, result4, EPSILON);
     }
 
-/*
     @Test
     public void testMedian() {
-        BigDecimal result = Stream.of(1, 2, 3, 4, 2, 2)
-                .map(x -> BigDecimal.valueOf(x))
-                .collect(StatisticsCollectors.median(MC));
-        assertBigDecimal(BigDecimal.valueOf(2), result);
+        double result = DoubleStream.of(1, 2, 3, 4, 2, 2)
+                .boxed()
+                .collect(StatisticsCollectors.median());
+        assertEquals(2, result, EPSILON);
     }
 
     @Test
     public void testPopulationSkewness() {
         // https://www.wolframalpha.com/input/?i=Skewness%5B1,2,3,4,4%5D
-        BigDecimal result = Stream.of(1, 2, 3, 4, 4)
-                .map(x -> BigDecimal.valueOf(x))
-                .collect(StatisticsCollectors.populationSkewness(MC)).round(new MathContext(5));
-        assertBigDecimal(BigDecimal.valueOf(-0.36317), result);
+        double result = DoubleStream.of(1, 2, 3, 4, 4)
+                .boxed()
+                .collect(StatisticsCollectors.populationSkewness());
+        assertEquals(-0.36317, result, EPSILON);
     }
 
     @Test
     public void testPopulationKurtosis() {
         // https://www.wolframalpha.com/input/?i=kurtosis+1,2,3,4,4
-        BigDecimal result = Stream.of(1, 2, 3, 4, 4)
-                .map(x -> BigDecimal.valueOf(x))
-                .collect(StatisticsCollectors.populationKurtosis(MC)).round(new MathContext(5));
-        assertBigDecimal(BigDecimal.valueOf(1.6280), result);
+        double result = DoubleStream.of(1, 2, 3, 4, 4)
+                .boxed()
+                .collect(StatisticsCollectors.populationKurtosis());
+        assertEquals(1.6280, result, EPSILON);
     }
 
     @Test
     public void testPopulationExcessKurtosis() {
         // https://www.wolframalpha.com/input/?i=kurtosis+1,2,3,4,4
-        BigDecimal result = Stream.of(1, 2, 3, 4, 4)
-                .map(x -> BigDecimal.valueOf(x))
-                .collect(StatisticsCollectors.populationExcessKurtosis(MC)).round(new MathContext(5));
-        assertBigDecimal(BigDecimal.valueOf(1.6280 - 3), result);
+        double result = DoubleStream.of(1, 2, 3, 4, 4)
+                .boxed()
+                .collect(StatisticsCollectors.populationExcessKurtosis());
+        assertEquals(1.6280 - 3, result, EPSILON);
     }
 
     @Test
     public void testSampleSkewness() {
         // Excel: =SKEW(1;2;3;4;4)
-        BigDecimal result = Stream.of(1, 2, 3, 4, 4)
-                .map(x -> BigDecimal.valueOf(x))
-                .collect(StatisticsCollectors.sampleSkewness(MC)).round(new MathContext(5));
-        assertBigDecimal(BigDecimal.valueOf(-0.54139), result);
+        double result = DoubleStream.of(1, 2, 3, 4, 4)
+                .boxed()
+                .collect(StatisticsCollectors.sampleSkewness());
+        assertEquals(-0.54139, result, EPSILON);
     }
 
     @Test
     public void testSampleExcessKurtosis() {
         // Excel: =KURT(1;2;3;4;4)
-        BigDecimal result = Stream.of(1, 2, 3, 4, 4)
-                .map(x -> BigDecimal.valueOf(x))
-                .collect(StatisticsCollectors.sampleExcessKurtosis(MC)).round(new MathContext(5));
-        assertBigDecimal(BigDecimal.valueOf(-1.4879), result);
+        double result = DoubleStream.of(1, 2, 3, 4, 4)
+                .boxed()
+                .collect(StatisticsCollectors.sampleExcessKurtosis());
+        assertEquals(-1.4879, result, EPSILON);
     }
-
+/*
     @Test
     public void testHistogram() {
         Histogram histogram = Stream.of(1, 2, 3, 5, 5, 5, 5, 6, 6, 7, 8, 8, 9)
