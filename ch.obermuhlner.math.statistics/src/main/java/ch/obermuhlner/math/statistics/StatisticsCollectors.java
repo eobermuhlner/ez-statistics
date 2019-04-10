@@ -1,5 +1,6 @@
 package ch.obermuhlner.math.statistics;
 
+import ch.obermuhlner.math.statistics.type.Histogram;
 import ch.obermuhlner.math.statistics.type.SkewnessKurtosis;
 import ch.obermuhlner.math.statistics.univariate.collection.MedianCalculator;
 import ch.obermuhlner.math.statistics.univariate.stream.*;
@@ -180,6 +181,14 @@ public class StatisticsCollectors {
                 () -> new SampleSkewnessExcessKurtosisCalculator(),
                 (calc, value) -> calc.add(value),
                 (left, right) -> { throw new UnsupportedOperationException("parallel computation not supported for skewness and kurtosis"); },
+                (calc) -> calc.getResult());
+    }
+
+    public static Collector<Double, HistogramCalculator, Histogram> histogram(double start, double end, double step) {
+        return Collector.of(
+                () -> new HistogramCalculator(start, end, step),
+                (calc, value) -> calc.add(value),
+                (left, right) -> { left.combine(right); return left; },
                 (calc) -> calc.getResult());
     }
 }

@@ -1,5 +1,6 @@
 package ch.obermuhlner.math.statistics;
 
+import ch.obermuhlner.math.statistics.type.Histogram;
 import ch.obermuhlner.math.statistics.univariate.stream.ArithmeticMeanCalculator;
 import org.junit.Test;
 
@@ -140,27 +141,27 @@ public class StatisticsCollectorsTest {
                 .collect(StatisticsCollectors.sampleExcessKurtosis());
         assertEquals(-1.4879, result, EPSILON);
     }
-/*
+
     @Test
     public void testHistogram() {
-        Histogram histogram = Stream.of(1, 2, 3, 5, 5, 5, 5, 6, 6, 7, 8, 8, 9)
+        Histogram histogram = DoubleStream.of(1, 2, 3, 5, 5, 5, 5, 6, 6, 7, 8, 8, 9)
                 .parallel()
-                .map(x -> BigDecimal.valueOf(x))
-                .collect(StatisticsCollectors.histogram(BigDecimal.valueOf(0), BigDecimal.valueOf(10), BigDecimal.valueOf(2)));
+                .boxed()
+                .collect(StatisticsCollectors.histogram(0, 10, 2));
 
         assertEquals(5, histogram.size());
 
-        assertEquals(BigDecimal.valueOf(0), histogram.getStart(0));
-        assertEquals(BigDecimal.valueOf(2), histogram.getStart(1));
-        assertEquals(BigDecimal.valueOf(4), histogram.getStart(2));
-        assertEquals(BigDecimal.valueOf(6), histogram.getStart(3));
-        assertEquals(BigDecimal.valueOf(8), histogram.getStart(4));
+        assertEquals(0, histogram.getStart(0), EPSILON);
+        assertEquals(2, histogram.getStart(1), EPSILON);
+        assertEquals(4, histogram.getStart(2), EPSILON);
+        assertEquals(6, histogram.getStart(3), EPSILON);
+        assertEquals(8, histogram.getStart(4), EPSILON);
 
-        assertEquals(BigDecimal.valueOf(2), histogram.getEnd(0));
-        assertEquals(BigDecimal.valueOf(4), histogram.getEnd(1));
-        assertEquals(BigDecimal.valueOf(6), histogram.getEnd(2));
-        assertEquals(BigDecimal.valueOf(8), histogram.getEnd(3));
-        assertEquals(BigDecimal.valueOf(10), histogram.getEnd(4));
+        assertEquals(2, histogram.getEnd(0), EPSILON);
+        assertEquals(4, histogram.getEnd(1), EPSILON);
+        assertEquals(6, histogram.getEnd(2), EPSILON);
+        assertEquals(8, histogram.getEnd(3), EPSILON);
+        assertEquals(10, histogram.getEnd(4), EPSILON);
 
         assertEquals(1, histogram.getCount(0));
         assertEquals(2, histogram.getCount(1));
@@ -168,7 +169,7 @@ public class StatisticsCollectorsTest {
         assertEquals(3, histogram.getCount(3));
         assertEquals(3, histogram.getCount(4));
     }
-
+/*
     @Test
     public void testCorrelation() {
         assertBigDecimal(
