@@ -1,5 +1,6 @@
 package ch.obermuhlner.math.statistics;
 
+import ch.obermuhlner.math.statistics.type.Histogram;
 import org.junit.Test;
 
 import java.util.Arrays;
@@ -132,7 +133,6 @@ public class StatisticsTest {
                 EPSILON);
     }
 
-    /*
     @Test
     public void testSampleExcessKurtosis() {
         // Excel: =KURT(1;2;3;4;4)
@@ -145,7 +145,7 @@ public class StatisticsTest {
     @Test
     public void testHistogram() {
         Histogram histogram = Statistics.histogram(
-                Arrays.asList(1, 2, 3, 5, 5, 5, 5, 6, 6, 7, 8, 8, 9),
+                toDoubles(1, 2, 3, 5, 5, 5, 5, 6, 6, 7, 8, 8, 9),
                 0.0, 10.0, 2.0);
 
         assertEquals(5, histogram.size());
@@ -172,12 +172,12 @@ public class StatisticsTest {
     @Test
     public void testCorrelation() {
         assertEquals(
-                1,
+                1.0,
                 Statistics.correlation(Arrays.asList(tuple(1, 1), tuple(2, 2), tuple(3, 3))),
                 EPSILON);
 
         assertEquals(
-                -1,
+                -1.0,
                 Statistics.correlation(Arrays.asList(tuple(1, 3), tuple(2, 2), tuple(3, 1))),
                 EPSILON);
 
@@ -210,11 +210,14 @@ public class StatisticsTest {
                         Arrays.asList(0.450, 0.420, 0.440, 0.395, 0.395, 0.370, 0.390, 0.400, 0.445, 0.470, 0.390, 0.400, 0.420, 0.450)),
                 EPSILON);
     }
-    */
 
     private static List<Double> toDoubles(int... values) {
         return Arrays.stream(values)
                 .mapToObj(v -> (double) v)
                 .collect(Collectors.toList());
+    }
+
+    public static double[] tuple(double... tuple) {
+        return tuple;
     }
 }

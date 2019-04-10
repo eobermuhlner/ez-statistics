@@ -1,5 +1,10 @@
 package ch.obermuhlner.math.statistics;
 
+import ch.obermuhlner.math.statistics.multivariate.collection.MultivariateStreamAsCollectionCalculator;
+import ch.obermuhlner.math.statistics.multivariate.collection.MultivariateStreamAsListsCalculator;
+import ch.obermuhlner.math.statistics.multivariate.stream.BivariateAsMultivariateStreamCalculator;
+import ch.obermuhlner.math.statistics.multivariate.stream.CorrelationCalculator;
+import ch.obermuhlner.math.statistics.type.Histogram;
 import ch.obermuhlner.math.statistics.univariate.collection.*;
 import ch.obermuhlner.math.statistics.univariate.stream.*;
 
@@ -85,5 +90,17 @@ public class Statistics {
 
     public static double sampleExcessKurtosis(Collection<Double> values) {
         return new SampleExcessKurtosisCalculator().getResult(values);
+    }
+
+    public static Histogram histogram(Collection<Double> values, double start, double end, double step) {
+        return new UnivariateStreamAsCollectionCalculator<>(new HistogramCalculator(start, end, step)).getResult(values);
+    }
+
+    public static double correlation(Collection<double[]> xyValues) {
+        return new MultivariateStreamAsCollectionCalculator<>(new BivariateAsMultivariateStreamCalculator<>(new CorrelationCalculator())).getResult(xyValues);
+    }
+
+    public static double correlation(List<Double> xValues, List<Double> yValues) {
+        return new MultivariateStreamAsListsCalculator<>(new BivariateAsMultivariateStreamCalculator<>(new CorrelationCalculator())).getResult(xValues, yValues);
     }
 }
