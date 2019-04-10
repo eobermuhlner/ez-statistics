@@ -1,7 +1,6 @@
 package ch.obermuhlner.math.statistics;
 
-import ch.obermuhlner.math.statistics.univariate.collection.MedianCalculator;
-import ch.obermuhlner.math.statistics.univariate.collection.UnivariateStreamAsCollectionCalculator;
+import ch.obermuhlner.math.statistics.univariate.collection.*;
 import ch.obermuhlner.math.statistics.univariate.stream.*;
 
 import java.util.ArrayList;
@@ -62,5 +61,29 @@ public class Statistics {
 
     public static double sampleStandardDeviation(Collection<Double> values) {
         return new UnivariateStreamAsCollectionCalculator<>(new SampleStandardDeviationCalculator()).getResult(values);
+    }
+
+    public static double populationSkewness(Collection<Double> values) {
+        return new PopulationSkewnessCalculator().getResult(values);
+    }
+
+    public static double populationKurtosis(Collection<Double> values) {
+        return new PopulationKurtosisCalculator().getResult(values);
+    }
+
+    public static double populationExcessKurtosis(Collection<Double> values) {
+        return new PopulationExcessKurtosisCalculator().getResult(values);
+    }
+
+    public static double sampleSkewness(Collection<Double> values) {
+        return new SampleSkewnessCalculator().getResult(values);
+    }
+
+    public static double sampleKurtosis(Collection<Double> values) {
+        return new SampleKurtosisCalculator().getResult(values);
+    }
+
+    public static double sampleExcessKurtosis(Collection<Double> values) {
+        return new SampleExcessKurtosisCalculator().getResult(values);
     }
 }

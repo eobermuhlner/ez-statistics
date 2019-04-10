@@ -96,7 +96,6 @@ public class StatisticsTest {
                 EPSILON);
     }
 
-    /*
     @Test
     public void testPopulationSkewness() {
         // https://www.wolframalpha.com/input/?i=Skewness%5B1,2,3,4,4%5D
@@ -133,6 +132,7 @@ public class StatisticsTest {
                 EPSILON);
     }
 
+    /*
     @Test
     public void testSampleExcessKurtosis() {
         // Excel: =KURT(1;2;3;4;4)
