@@ -5,11 +5,11 @@ import ch.obermuhlner.math.statistics.multivariate.stream.MultivariateStreamCalc
 import java.util.Collection;
 import java.util.Iterator;
 
-public class MultivariateStreamAsListsCalculator<C extends Collection<Double>, R> implements MultivariateCollectionsCalculator<C, R> {
+public class MultivariateStreamAsCollectionsCalculator<C extends Collection<Double>, R> implements MultivariateCollectionsCalculator<C, R> {
 
     private final MultivariateStreamCalculator<R> calculator;
 
-    public MultivariateStreamAsListsCalculator(MultivariateStreamCalculator<R> calculator) {
+    public MultivariateStreamAsCollectionsCalculator(MultivariateStreamCalculator<R> calculator) {
         this.calculator = calculator;
     }
 

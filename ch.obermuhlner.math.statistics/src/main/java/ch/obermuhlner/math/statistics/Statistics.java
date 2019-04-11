@@ -1,9 +1,11 @@
 package ch.obermuhlner.math.statistics;
 
+import ch.obermuhlner.math.statistics.multivariate.collection.CovarianceCalculator;
 import ch.obermuhlner.math.statistics.multivariate.collection.MultivariateStreamAsCollectionCalculator;
-import ch.obermuhlner.math.statistics.multivariate.collection.MultivariateStreamAsListsCalculator;
+import ch.obermuhlner.math.statistics.multivariate.collection.MultivariateStreamAsCollectionsCalculator;
 import ch.obermuhlner.math.statistics.multivariate.stream.BivariateAsMultivariateStreamCalculator;
 import ch.obermuhlner.math.statistics.multivariate.stream.CorrelationCalculator;
+import ch.obermuhlner.math.statistics.multivariate.stream.MultivariateCollectionsAsStreamCalculator;
 import ch.obermuhlner.math.statistics.type.Histogram;
 import ch.obermuhlner.math.statistics.univariate.collection.*;
 import ch.obermuhlner.math.statistics.univariate.stream.*;
@@ -101,6 +103,14 @@ public class Statistics {
     }
 
     public static double correlation(List<Double> xValues, List<Double> yValues) {
-        return new MultivariateStreamAsListsCalculator<>(new BivariateAsMultivariateStreamCalculator<>(new CorrelationCalculator())).getResult(xValues, yValues);
+        return new MultivariateStreamAsCollectionsCalculator<>(new BivariateAsMultivariateStreamCalculator<>(new CorrelationCalculator())).getResult(xValues, yValues);
+    }
+
+    public static double covariance(Collection<double[]> xyValues) {
+        return new MultivariateStreamAsCollectionCalculator<>(new MultivariateCollectionsAsStreamCalculator<>(new CovarianceCalculator())).getResult(xyValues);
+    }
+
+    public static double covariance(List<Double> xValues, List<Double> yValues) {
+        return new CovarianceCalculator().getResult(xValues, yValues);
     }
 }
