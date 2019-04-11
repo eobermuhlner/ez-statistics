@@ -169,27 +169,33 @@ public class StatisticsCollectorsTest {
         assertEquals(3, histogram.getCount(3));
         assertEquals(3, histogram.getCount(4));
     }
-/*
+
     @Test
     public void testCorrelation() {
-        assertBigDecimal(
-                BigDecimal.valueOf(1),
+        assertEquals(
+                1.0,
                 Stream.of(tuple(1, 1), tuple(2, 2), tuple(3, 3))
                     .parallel()
-                    .collect(StatisticsCollectors.correlation(MC)));
+                    .collect(StatisticsCollectors.correlation()),
+                EPSILON);
 
-        assertBigDecimal(
-                BigDecimal.valueOf(-1),
+        assertEquals(
+                -1.0,
                 Stream.of(tuple(1, 3), tuple(2, 2), tuple(3, 1))
                         .parallel()
-                        .collect(StatisticsCollectors.correlation(MC)));
+                        .collect(StatisticsCollectors.correlation()),
+                EPSILON);
 
         // http://www.statstutor.ac.uk/resources/uploaded/pearsons.pdf
-        assertBigDecimal(
-                BigDecimal.valueOf(0.877),
+        assertEquals(
+                0.877,
                 Stream.of(tuple(15.5, 0.450), tuple(13.6, 0.420), tuple(13.5, 0.440), tuple(13.0, 0.395), tuple(13.3, 0.395), tuple(12.4, 0.370), tuple(11.1, 0.390), tuple(13.1, 0.400), tuple(16.1, 0.445), tuple(16.4, 0.470), tuple(13.4, 0.390), tuple(13.2, 0.400), tuple(14.3, 0.420), tuple(16.1, 0.450))
                         .parallel()
-                        .collect(StatisticsCollectors.correlation(MC)).round(new MathContext(3)));
+                        .collect(StatisticsCollectors.correlation()),
+                EPSILON);
     }
-*/
+
+    public static double[] tuple(double... tuple) {
+        return tuple;
+    }
 }
