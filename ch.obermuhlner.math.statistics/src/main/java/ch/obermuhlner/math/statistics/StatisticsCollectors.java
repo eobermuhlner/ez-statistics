@@ -1,6 +1,6 @@
 package ch.obermuhlner.math.statistics;
 
-import ch.obermuhlner.math.statistics.multivariate.stream.CorrelationCalculator;
+import ch.obermuhlner.math.statistics.multivariate.stream.SampleCorrelationCalculator;
 import ch.obermuhlner.math.statistics.type.Histogram;
 import ch.obermuhlner.math.statistics.type.SkewnessKurtosis;
 import ch.obermuhlner.math.statistics.univariate.collection.MedianCalculator;
@@ -193,9 +193,9 @@ public class StatisticsCollectors {
                 (calc) -> calc.getResult());
     }
 
-    public static Collector<double[], CorrelationCalculator, Double> correlation() {
+    public static Collector<double[], SampleCorrelationCalculator, Double> correlation() {
         return Collector.of(
-                () -> new CorrelationCalculator(),
+                () -> new SampleCorrelationCalculator(),
                 (calc, tuple) -> calc.add(tuple[0], tuple[1]),
                 (left, right) -> { left.combine(right); return left; },
                 (calc) -> calc.getResult());

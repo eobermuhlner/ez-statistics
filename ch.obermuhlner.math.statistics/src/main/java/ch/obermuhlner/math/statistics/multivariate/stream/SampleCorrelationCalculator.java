@@ -1,8 +1,8 @@
 package ch.obermuhlner.math.statistics.multivariate.stream;
 
-public class CorrelationCalculator implements BivariateStreamCalculator<Double> {
+public class SampleCorrelationCalculator implements BivariateStreamCalculator<Double> {
 
-    private int count = 0;
+    private int n = 0;
     private double sumX = 0;
     private double sumY = 0;
     private double sumXY = 0;
@@ -16,23 +16,23 @@ public class CorrelationCalculator implements BivariateStreamCalculator<Double> 
         sumXY += x * y;
         sumXX += x * x;
         sumYY += y * y;
-        count++;
+        n++;
     }
 
-    public void combine(CorrelationCalculator other) {
+    public void combine(SampleCorrelationCalculator other) {
         sumX += other.sumX;
         sumY += other.sumY;
         sumXY += other.sumXY;
         sumXX += other.sumXX;
         sumYY += other.sumYY;
-        count += other.count;
+        n += other.n;
     }
 
     @Override
     public Double getResult() {
-        double nom = count * sumXY - (sumX*sumY);
-        double denom1 = Math.sqrt(count * sumXX - (sumX*sumX));
-        double denom2 = Math.sqrt(count * sumYY - (sumY* sumY));
+        double nom = n * sumXY - (sumX*sumY);
+        double denom1 = Math.sqrt(n * sumXX - (sumX*sumX));
+        double denom2 = Math.sqrt(n * sumYY - (sumY* sumY));
         return nom / (denom1 * denom2);
     }
 }

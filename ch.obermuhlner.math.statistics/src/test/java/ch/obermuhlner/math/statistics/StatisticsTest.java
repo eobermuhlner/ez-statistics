@@ -81,10 +81,10 @@ public class StatisticsTest {
 
     @Test
     public void testPopulationVariance() {
-        // https://www.wolframalpha.com/input/?i=populationvariance+1,2,3
+        // https://www.wolframalpha.com/input/?i=populationvariance+1,2,3,4
         assertEquals(
-                0.66667,
-                Statistics.populationVariance(toDoubles(1, 2, 3)),
+                1.25,
+                Statistics.populationVariance(toDoubles(1, 2, 3, 4)),
                 EPSILON);
     }
 
@@ -170,45 +170,96 @@ public class StatisticsTest {
     }
 
     @Test
-    public void testCorrelation() {
+    public void testSampleCorrelation() {
         assertEquals(
                 1.0,
-                Statistics.correlation(Arrays.asList(tuple(1, 1), tuple(2, 2), tuple(3, 3))),
+                Statistics.sampleCorrelation(Arrays.asList(tuple(1, 1), tuple(2, 2), tuple(3, 3))),
                 EPSILON);
 
         assertEquals(
                 -1.0,
-                Statistics.correlation(Arrays.asList(tuple(1, 3), tuple(2, 2), tuple(3, 1))),
+                Statistics.sampleCorrelation(Arrays.asList(tuple(1, 3), tuple(2, 2), tuple(3, 1))),
                 EPSILON);
 
         assertEquals(
                 0.877,
-                Statistics.correlation(Arrays.asList(tuple(15.5, 0.450), tuple(13.6, 0.420), tuple(13.5, 0.440), tuple(13.0, 0.395), tuple(13.3, 0.395), tuple(12.4, 0.370), tuple(11.1, 0.390), tuple(13.1, 0.400), tuple(16.1, 0.445), tuple(16.4, 0.470), tuple(13.4, 0.390), tuple(13.2, 0.400), tuple(14.3, 0.420), tuple(16.1, 0.450))),
+                Statistics.sampleCorrelation(Arrays.asList(tuple(15.5, 0.450), tuple(13.6, 0.420), tuple(13.5, 0.440), tuple(13.0, 0.395), tuple(13.3, 0.395), tuple(12.4, 0.370), tuple(11.1, 0.390), tuple(13.1, 0.400), tuple(16.1, 0.445), tuple(16.4, 0.470), tuple(13.4, 0.390), tuple(13.2, 0.400), tuple(14.3, 0.420), tuple(16.1, 0.450))),
                 EPSILON);
     }
 
     @Test
-    public void testCorrelation2() {
+    public void testSampleCorrelation2() {
         assertEquals(
                 1.0,
-                Statistics.correlation(
+                Statistics.sampleCorrelation(
                         toDoubles(1, 2, 3),
                         toDoubles(1, 2, 3)),
                 EPSILON);
 
         assertEquals(
                 -1.0,
-                Statistics.correlation(
+                Statistics.sampleCorrelation(
                         toDoubles(1, 2, 3),
                         toDoubles(3, 2, 1)),
                 EPSILON);
 
         assertEquals(
                 0.877,
-                Statistics.correlation(
+                Statistics.sampleCorrelation(
                         Arrays.asList(15.5, 13.6, 13.5, 13.0, 13.3, 12.4, 11.1, 13.1, 16.1, 16.4, 13.4, 13.2, 14.3, 16.1),
                         Arrays.asList(0.450, 0.420, 0.440, 0.395, 0.395, 0.370, 0.390, 0.400, 0.445, 0.470, 0.390, 0.400, 0.420, 0.450)),
                 EPSILON);
+    }
+
+    @Test
+    public void testSampleCovariance() {
+        //https://www.wolframalpha.com/input/?i=Covariance%5B%7B1,+2,+3%7D,+%7B1,+2,+4%7D%5D
+        assertEquals(
+                1.6667,
+                Statistics.sampleCovariance(
+                        toDoubles(1, 2, 3, 4),
+                        toDoubles(1, 2, 3, 4)),
+                EPSILON);
+
+        //https://www.wolframalpha.com/input/?i=Covariance%5B%7B1,+2,+3,+4%7D,+%7B1,+2,+2,+5%7D%5D
+        assertEquals(
+                2.0,
+                Statistics.sampleCovariance(
+                        toDoubles(1, 2, 3, 4),
+                        toDoubles(1, 2, 2, 5)),
+                EPSILON);
+    }
+
+    @Test
+    public void testCorrelationMatrix() {
+        double[][] matrix = Statistics.sampleCorrelationMatrix(
+                toDoubles(1, 2, 3, 4),
+                toDoubles(1, 2, 2, 3),
+                toDoubles(4, 2, 1, 1));
+        System.out.println("CORRELATION MATRIX = ");
+        printMatrix(matrix);
+    }
+
+    @Test
+    public void testCovarianceMatrix() {
+        double[][] matrix = Statistics.sampleCovarianceMatrix(
+                toDoubles(1, 2, 3, 4),
+                toDoubles(1, 2, 2, 3),
+                toDoubles(4, 2, 1, 1));
+        System.out.println("COVARIANCE MATRIX = ");
+        printMatrix(matrix);
+    }
+
+    private void printMatrix(double[][] matrix) {
+        for (int y = 0; y < matrix[0].length; y++) {
+            for (int x = 0; x < matrix.length; x++) {
+                if (x != 0) {
+                    System.out.print(", ");
+                }
+                System.out.printf("%8.3f", matrix[x][y]);
+            }
+            System.out.println();
+        }
     }
 
     private static List<Double> toDoubles(int... values) {

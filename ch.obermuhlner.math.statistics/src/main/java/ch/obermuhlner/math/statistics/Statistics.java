@@ -1,10 +1,8 @@
 package ch.obermuhlner.math.statistics;
 
-import ch.obermuhlner.math.statistics.multivariate.collection.CovarianceCalculator;
-import ch.obermuhlner.math.statistics.multivariate.collection.MultivariateStreamAsCollectionCalculator;
-import ch.obermuhlner.math.statistics.multivariate.collection.MultivariateStreamAsCollectionsCalculator;
+import ch.obermuhlner.math.statistics.multivariate.collection.*;
 import ch.obermuhlner.math.statistics.multivariate.stream.BivariateAsMultivariateStreamCalculator;
-import ch.obermuhlner.math.statistics.multivariate.stream.CorrelationCalculator;
+import ch.obermuhlner.math.statistics.multivariate.stream.SampleCorrelationCalculator;
 import ch.obermuhlner.math.statistics.multivariate.stream.MultivariateCollectionsAsStreamCalculator;
 import ch.obermuhlner.math.statistics.type.Histogram;
 import ch.obermuhlner.math.statistics.univariate.collection.*;
@@ -98,19 +96,47 @@ public class Statistics {
         return new UnivariateStreamAsCollectionCalculator<>(new HistogramCalculator(start, end, step)).getResult(values);
     }
 
-    public static double correlation(Collection<double[]> xyValues) {
-        return new MultivariateStreamAsCollectionCalculator<>(new BivariateAsMultivariateStreamCalculator<>(new CorrelationCalculator())).getResult(xyValues);
+    public static double populationCorrelation(List<Double> xValues, List<Double> yValues) {
+        return new PopulationCorrelationCalculator().getResult(xValues, yValues);
     }
 
-    public static double correlation(List<Double> xValues, List<Double> yValues) {
-        return new MultivariateStreamAsCollectionsCalculator<>(new BivariateAsMultivariateStreamCalculator<>(new CorrelationCalculator())).getResult(xValues, yValues);
+    public static double sampleCorrelation(Collection<double[]> xyValues) {
+        return new MultivariateStreamAsCollectionCalculator<>(new BivariateAsMultivariateStreamCalculator<>(new SampleCorrelationCalculator())).getResult(xyValues);
     }
 
-    public static double covariance(Collection<double[]> xyValues) {
-        return new MultivariateStreamAsCollectionCalculator<>(new MultivariateCollectionsAsStreamCalculator<>(new CovarianceCalculator())).getResult(xyValues);
+    public static double sampleCorrelation(List<Double> xValues, List<Double> yValues) {
+        return new MultivariateStreamAsCollectionsCalculator<>(new BivariateAsMultivariateStreamCalculator<>(new SampleCorrelationCalculator())).getResult(xValues, yValues);
     }
 
-    public static double covariance(List<Double> xValues, List<Double> yValues) {
-        return new CovarianceCalculator().getResult(xValues, yValues);
+    public static double populationCovariance(Collection<double[]> xyValues) {
+        return new MultivariateStreamAsCollectionCalculator<>(new MultivariateCollectionsAsStreamCalculator<>(new PopulationCovarianceCalculator())).getResult(xyValues);
+    }
+
+    public static double populationCovariance(List<Double> xValues, List<Double> yValues) {
+        return new PopulationCovarianceCalculator().getResult(xValues, yValues);
+    }
+
+    public static double sampleCovariance(Collection<double[]> xyValues) {
+        return new MultivariateStreamAsCollectionCalculator<>(new MultivariateCollectionsAsStreamCalculator<>(new SampleCovarianceCalculator())).getResult(xyValues);
+    }
+
+    public static double sampleCovariance(List<Double> xValues, List<Double> yValues) {
+        return new SampleCovarianceCalculator().getResult(xValues, yValues);
+    }
+
+    public static double[][] populationCorrelationMatrix(List<Double>... values) {
+        return new CorrelationMatrixCalculator(new PopulationCovarianceCalculator()).getResult(values);
+    }
+
+    public static double[][] sampleCorrelationMatrix(List<Double>... values) {
+        return new CorrelationMatrixCalculator(new MultivariateStreamAsCollectionsCalculator<>(new BivariateAsMultivariateStreamCalculator<>(new SampleCorrelationCalculator()))).getResult(values);
+    }
+
+    public static double[][] populationCovarianceMatrix(List<Double>... values) {
+        return new CovarianceMatrixCalculator(new PopulationCovarianceCalculator()).getResult(values);
+    }
+
+    public static double[][] sampleCovarianceMatrix(List<Double>... values) {
+        return new CovarianceMatrixCalculator(new SampleCovarianceCalculator()).getResult(values);
     }
 }

@@ -5,27 +5,26 @@ import ch.obermuhlner.math.statistics.Statistics;
 import java.util.Collection;
 import java.util.Iterator;
 
-public class CovarianceCalculator implements MultivariateCollectionsCalculator<Collection<Double>, Double> {
+public abstract class AbstractCovarianceCalculator implements MultivariateCollectionsCalculator<Collection<Double>, Double> {
 
     private final int xValueIndex;
     private final int yValueIndex;
 
-    public CovarianceCalculator() {
+    public AbstractCovarianceCalculator() {
         this(0, 1);
     }
 
-    public CovarianceCalculator(int xValueIndex, int yValueIndex) {
+    public AbstractCovarianceCalculator(int xValueIndex, int yValueIndex) {
         this.xValueIndex = xValueIndex;
         this.yValueIndex = yValueIndex;
     }
 
-    @Override
-    public Double getResult(Collection<Double>... values) {
+    public double calculateCovariance(int offsetN, Collection<Double>... values) {
         double xMean = Statistics.arithmeticMean(values[xValueIndex]);
         double yMean = Statistics.arithmeticMean(values[yValueIndex]);
 
         Iterator<Double> xIterator = values[xValueIndex].iterator();
-        Iterator<Double> yIterator = values[xValueIndex].iterator();
+        Iterator<Double> yIterator = values[yValueIndex].iterator();
 
         int n = 0;
         double sumTerms = 0;
@@ -38,6 +37,6 @@ public class CovarianceCalculator implements MultivariateCollectionsCalculator<C
             n++;
         }
 
-        return sumTerms / n;
+        return sumTerms / (n + offsetN);
     }
 }
